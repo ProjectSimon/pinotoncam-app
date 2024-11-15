@@ -1,5 +1,6 @@
 rpicam_app_src += files([
     'encoder.cpp',
+    'dng_encoder.cpp',
     'h264_encoder.cpp',
     'mjpeg_encoder.cpp',
     'null_encoder.cpp',
@@ -7,6 +8,7 @@ rpicam_app_src += files([
 
 encoder_headers = files([
     'encoder.hpp',
+    'dng_encoder.hpp',
     'h264_encoder.hpp',
     'mjpeg_encoder.hpp',
     'null_encoder.hpp',

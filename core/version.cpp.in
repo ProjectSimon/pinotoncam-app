@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: BSD-2-Clause */
 /*
  * Copyright (C) 2021, Raspberry Pi (Trading) Ltd.
+ * * Copyright (C) 2022 - 2024, Csaba Nagy.
+ * Copyright (C) 2024, Project Simon, Martin TOUZOT.
  *
  * AUTO-GENERATED, DO NOT MODIFY!
  */
@@ -45,4 +47,33 @@ const std::string &PinotonCamAppVersion()
 const std::string &PinotonCamAppCapabilities()
 {
 	return caps;
+}
+
+std::string getHwId() {
+    std::ifstream cpuinfo("/proc/cpuinfo");
+    std::string line;
+    std::string serialTag = "Serial";
+    
+    while (std::getline(cpuinfo, line)) {
+        if (line.find(serialTag) != std::string::npos) {
+            std::string serial = line.substr(line.find(":") + 1);
+            // Remove leading and trailing whitespace
+            size_t start = serial.find_first_not_of(" \t");
+            size_t end = serial.find_last_not_of(" \t");
+            if (start != std::string::npos) {
+                return serial.substr(start, end - start + 1);
+            }
+        }
+    }
+    cpuinfo.close();
+
+    // Fallback to MAC address
+    std::ifstream macFile("/sys/class/net/eth0/address");
+    if (macFile.is_open()) {
+        std::getline(macFile, line);
+        macFile.close();
+        return line;
+    }
+
+    return "UNKNOWN"; // As a final fallback
 }
