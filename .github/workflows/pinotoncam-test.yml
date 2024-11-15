@@ -26,7 +26,7 @@ jobs:
       run: rm -rf ${{env.LIBCAMERA_SRC_DIR}}
 
     - name: Pull libcamera
-      run: git clone --depth=1 https://github.com/raspberrypi/libcamera.git ${{env.LIBCAMERA_SRC_DIR}}
+      run: git clone --depth=1 https://github.com/ProjectSimon/libcamera.git ${{env.LIBCAMERA_SRC_DIR}}
 
     - name: libcamera version
       run: cd ${{env.LIBCAMERA_SRC_DIR}} && git log -1
@@ -48,7 +48,7 @@ jobs:
         path: build-artifacts-libcamera.tar
         retention-days: 7
 
-  build-rpicam-apps:
+  build-pinotoncam-app:
 
     runs-on: [ self-hosted ]
     needs: build-libcamera
@@ -80,19 +80,19 @@ jobs:
       timeout-minutes: 15
 
     - name: Tar files
-      run: tar -cvf build-artifacts-rpicam-apps.tar -C ${{github.workspace}}/build .
+      run: tar -cvf build-artifacts-pinotoncam-app.tar -C ${{github.workspace}}/build .
 
     - name: Upload build files
       uses: actions/upload-artifact@v4
       with:
-        name: build-artifacts-rpicam-apps
-        path: build-artifacts-rpicam-apps.tar
+        name: build-artifacts-pinotoncam-app
+        path: build-artifacts-pinotoncam-app.tar
         retention-days: 7
 
   run-test:
 
     runs-on: ${{matrix.camera}}
-    needs: build-rpicam-apps
+    needs: build-pinotoncam-app
 
     strategy:
       matrix:
@@ -107,14 +107,14 @@ jobs:
     - name: Create test output dir
       run: mkdir -p ${{github.workspace}}/test_output
 
-    - name: Download rpicam-apps build
+    - name: Download pinotoncam-app build
       uses: actions/download-artifact@v4
       with:
-        name: build-artifacts-rpicam-apps
+        name: build-artifacts-pinotoncam-app
         path: ${{github.workspace}}
 
-    - name: Untar rpicam-apps files
-      run: tar -xvf build-artifacts-rpicam-apps.tar --one-top-level=build
+    - name: Untar pinotoncam-app files
+      run: tar -xvf build-artifacts-pinotoncam-app.tar --one-top-level=build
 
     - name: Clean libcamera
       run: rm -rf ${{env.LIBCAMERA_SRC_DIR}} && mkdir -p ${{env.LIBCAMERA_SRC_DIR}}
@@ -134,7 +134,7 @@ jobs:
     - name: Print linkage info
       run: ldd ${{github.workspace}}/build/apps/rpicam-hello | grep libcamera
 
-    - name: Test rpicam-apps
+    - name: Test pinotoncam-app
       run: ${{github.workspace}}/utils/test.py --exe-dir ${{github.workspace}}/build/apps/ --output-dir ${{github.workspace}}/test_output --json-dir ${{github.workspace}}/assets
       timeout-minutes: 15
 

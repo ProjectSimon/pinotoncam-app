@@ -7,5 +7,5 @@
 
 #include <string>
 
-const std::string &RPiCamAppsVersion();
-const std::string &RPiCamAppsCapabilities();
+const std::string &PinotonCamAppVersion();
+const std::string &PinotonCamAppCapabilities();

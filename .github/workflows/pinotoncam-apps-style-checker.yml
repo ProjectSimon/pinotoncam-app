@@ -1,4 +1,4 @@
-name: rpicam-apps style checker
+name: pinotoncam-app style checker
 on:
   pull_request:
     branches: [ main ]

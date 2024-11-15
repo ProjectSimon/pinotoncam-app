@@ -37,12 +37,12 @@ static const std::string caps {"egl:" + std::to_string(egl) +
 							   " drm:" + std::to_string(drm) +
 							   " libav:" + std::to_string(libav)};
 
-const std::string &RPiCamAppsVersion()
+const std::string &PinotonCamAppVersion()
 {
 	return version;
 }
 
-const std::string &RPiCamAppsCapabilities()
+const std::string &PinotonCamAppCapabilities()
 {
 	return caps;
 }

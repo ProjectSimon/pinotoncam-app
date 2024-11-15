@@ -367,8 +367,8 @@ bool Options::Parse(int argc, char *argv[])
 
 	if (version)
 	{
-		std::cout << "rpicam-apps build: " << RPiCamAppsVersion() << std::endl;
-		std::cout << "rpicam-apps capabilites: " << RPiCamAppsCapabilities() << std::endl;
+		std::cout << "pinotoncam-app build: " << PinotonCamAppVersion() << std::endl;
+		std::cout << "pinotoncam-app capabilites: " << PinotonCamAppCapabilities() << std::endl;
 		std::cout << "libcamera build: " << libcamera::CameraManager::version() << std::endl;
 		return false;
 	}
