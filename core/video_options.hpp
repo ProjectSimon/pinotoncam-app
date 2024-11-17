@@ -159,6 +159,8 @@ struct VideoOptions : public Options
 			 "Add a time offset (in microseconds if no units provided) to the audio stream, relative to the video stream. "
 			 "The offset value can be either positive or negative.")
 #endif
+			("thumdnail-type", value<int>(&thumbnail)->default_value(3),
+			"Type of thumbnail encoding.")
 			;
 		// clang-format on
 	}
@@ -191,6 +193,7 @@ struct VideoOptions : public Options
 	uint32_t segment;
 	size_t circular;
 	uint32_t frames;
+	int thumbnail;
 
 	virtual bool Parse(int argc, char *argv[]) override
 	{

@@ -17,7 +17,7 @@
 #include <thread>
 
 #include "encoder.hpp"
-#include "core/dng_options.hpp"
+#include "core/video_options.hpp"
 #include "core/version.hpp"
 #include "image/dng.hpp"
 #include "image/matrix.hpp"
@@ -27,7 +27,7 @@
 class DngEncoder : public Encoder
 {
 public:
-	DngEncoder(DNGOptions const *options);
+	DngEncoder(VideoOptions const *options);
 	~DngEncoder();
 	// Encode the given buffer.
 	void EncodeBuffer(int fd, size_t size, void *mem, StreamInfo const &info, int64_t timestamp_us) override;
@@ -128,7 +128,7 @@ private:
 	uint64_t index_;
 	uint64_t frames_;
 
-    DNGOptions const *options_;
+    VideoOptions const *options_;
 
 	size_t dng_save(int thread_num, uint8_t const *mem_tiff, uint8_t const *mem, StreamInfo const &info, uint8_t const *lomem, StreamInfo const &loinfo, size_t losize,
 			libcamera::ControlList const &metadata, uint64_t fn);

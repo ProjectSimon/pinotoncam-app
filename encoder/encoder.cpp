@@ -16,6 +16,7 @@
 #include "h264_encoder.hpp"
 #include "mjpeg_encoder.hpp"
 #include "null_encoder.hpp"
+#include "dng_encoder.hpp"
 
 #if LIBAV_PRESENT
 #include "libav_encoder.hpp"
@@ -61,5 +62,7 @@ Encoder *Encoder::Create(VideoOptions *options, const StreamInfo &info)
 #endif
 	else if (strcasecmp(options->codec.c_str(), "mjpeg") == 0)
 		return new MjpegEncoder(options);
+	else if (strcasecmp(options->codec.c_str(), "dng") == 0)
+		return new DngEncoder(options);
 	throw std::runtime_error("Unrecognised codec " + options->codec);
 }

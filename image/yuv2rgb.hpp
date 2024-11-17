@@ -15,7 +15,11 @@
  * limitations under the License.
  *
  */
-bool nv21_to_rgb(unsigned char* rgb, unsigned char const* nv21, int width, int height);
+#pragma once
+
+#include <arm_neon.h>
+
+inline bool nv21_to_rgb(unsigned char* rgb, unsigned char const* nv21, int width, int height);
 
 template<typename trait>
 bool decode_yuv_neon(unsigned char* out, unsigned char const* y, unsigned char const* uv, int width, int height, unsigned char fill_alpha=0xff)
@@ -105,11 +109,11 @@ public:
     }
 };
 
-bool nv21_to_rgb(unsigned char* rgb, unsigned char const* nv21, int width, int height) {
+inline bool nv21_to_rgb(unsigned char* rgb, unsigned char const* nv21, int width, int height) {
     return decode_yuv_neon<NV21toRGB_neon>(rgb, nv21, nv21+(width*height), width, height);
 }
 
-bool nv21_to_rgb(unsigned char* rgb, unsigned char const* y, unsigned char const* uv, int width, int height) {
+inline bool nv21_to_rgb(unsigned char* rgb, unsigned char const* y, unsigned char const* uv, int width, int height) {
     return decode_yuv_neon<NV21toRGB_neon>(rgb, y, uv, width, height);
 }
 
@@ -133,7 +137,8 @@ public:
         vst4_u8(dst, pblock);
     }
 };
-bool nv21_to_rgba(unsigned char* rgba, unsigned char alpha, unsigned char const* nv21, int width, int height) {
+
+inline bool nv21_to_rgba(unsigned char* rgba, unsigned char alpha, unsigned char const* nv21, int width, int height) {
     return decode_yuv_neon<NV21toRGBA_neon>(rgba, nv21, nv21+(width*height), width, height, alpha);
 }
 
@@ -157,7 +162,8 @@ public:
         vst4_u8(dst, pblock);
     }
 };
-bool nv21_to_bgra(unsigned char* rgba, unsigned char alpha, unsigned char const* nv21, int width, int height) {
+
+inline bool nv21_to_bgra(unsigned char* rgba, unsigned char alpha, unsigned char const* nv21, int width, int height) {
     return decode_yuv_neon<NV21toBGRA_neon>(rgba, nv21, nv21+(width*height), width, height, alpha);
 }
 
@@ -179,6 +185,7 @@ public:
         vst3_u8(dst, pblock);
     }
 };
-bool nv21_to_bgr(unsigned char* bgr, unsigned char const* nv21, int width, int height) {
+
+inline bool nv21_to_bgr(unsigned char* bgr, unsigned char const* nv21, int width, int height) {
     return decode_yuv_neon<NV21toBGR_neon>(bgr, nv21, nv21+(width*height), width, height);
 }

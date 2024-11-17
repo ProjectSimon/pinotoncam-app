@@ -22,7 +22,6 @@
 #include "core/still_options.hpp"
 #include "core/stream_info.hpp"
 
-#include <arm_neon.h>
 #include "dng_encoder.hpp"
 
 #include <filesystem>
@@ -110,7 +109,7 @@ void pack_14bit_data(const uint16_t* src, uint8_t* dst, size_t num_pixels) {
 
 #include <pthread.h>
 
-DngEncoder::DngEncoder(DNGOptions const *options)
+DngEncoder::DngEncoder(VideoOptions const *options)
     : Encoder(options), // Assuming you're calling the base class constructor
       encoder_initialized_(false),
       encodeCheck_(false),
@@ -292,11 +291,16 @@ void DngEncoder::setup_encoder(libcamera::StreamConfiguration const &cfg, libcam
     dng_info.compression = COMPRESSION_NONE;
 
     // extra metadata
+    std::string model = "";
+    std::string serial = "";
+    getHwInfo(serial, model);
+
+    const std::string cam_id = ""; //metadata.get()
     dng_info.make = "Raspberry Pi";
-    dng_info.model = options_->model;
-    dng_info.serial = getHwId();
+    dng_info.model = model;
+    dng_info.serial = serial;
     dng_info.software = "libcamera;pinotoncam-app";
-    dng_info.ucm = options_->ucm.value_or("Pinoton");
+    dng_info.ucm = cam_id;
 
     // adjust disk_buffer
     const double MAX_RAM_FRACTION = 2.0 / 3.0;
@@ -708,9 +712,7 @@ void DngEncoder::diskThread(int num)
         }
 
         std::ostringstream oss;
-        oss << options_->mediaDest << '/' 
-            << options_->folder << '/' 
-            << options_->folder << '_'
+        oss << options_->output
             << std::setw(9) << std::setfill('0') << disk_item.index 
             << ".dng";
 

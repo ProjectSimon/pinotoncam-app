@@ -12,4 +12,4 @@
 
 const std::string &PinotonCamAppVersion();
 const std::string &PinotonCamAppCapabilities();
-std::string getHwId();
+void getHwInfo(std::string &serial, std::string &model);

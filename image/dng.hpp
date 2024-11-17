@@ -7,6 +7,8 @@
  * dng.hpp - Save raw image as DNG file.
  */
 
+#pragma once
+
 #include <libcamera/formats.h>
 
 using namespace libcamera;

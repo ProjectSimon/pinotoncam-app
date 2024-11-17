@@ -49,19 +49,30 @@ const std::string &PinotonCamAppCapabilities()
 	return caps;
 }
 
-std::string getHwId() {
+void getHwInfo(std::string &serial, std::string &model) {
     std::ifstream cpuinfo("/proc/cpuinfo");
     std::string line;
     std::string serialTag = "Serial";
+    std::string modelTag = "Model";
     
     while (std::getline(cpuinfo, line)) {
         if (line.find(serialTag) != std::string::npos) {
-            std::string serial = line.substr(line.find(":") + 1);
+            serial = line.substr(line.find(":") + 1);
             // Remove leading and trailing whitespace
             size_t start = serial.find_first_not_of(" \t");
             size_t end = serial.find_last_not_of(" \t");
             if (start != std::string::npos) {
-                return serial.substr(start, end - start + 1);
+                serial.substr(start, end - start + 1);
+            }
+        }
+
+        if (line.find(modelTag) != std::string::npos) {
+            model = line.substr(line.find(": Raspberry Pi") + 1);
+            // Remove leading and trailing whitespace
+            size_t start = model.find_first_not_of(" \t");
+            size_t end = model.find_last_not_of(" \t");
+            if (start != std::string::npos) {
+                model.substr(start, end - start + 1);
             }
         }
     }
@@ -70,10 +81,24 @@ std::string getHwId() {
     // Fallback to MAC address
     std::ifstream macFile("/sys/class/net/eth0/address");
     if (macFile.is_open()) {
-        std::getline(macFile, line);
+        std::getline(macFile, serial);
         macFile.close();
-        return line;
     }
 
-    return "UNKNOWN"; // As a final fallback
+    std::ifstream modelFile("/sys/firmware/devicetree/base/model");
+    if (modelFile.is_open()) {
+        std::getline(modelFile, model);
+        modelFile.close();
+
+        model = model.substr(model.find("Raspberry Pi") + 1);
+        // Remove leading and trailing whitespace
+        size_t start = model.find_first_not_of(" \t");
+        size_t end = model.find_last_not_of(" \t");
+        if (start != std::string::npos) {
+            model.substr(start, end - start + 1);
+        }
+    }
+
+    serial = "UNKNOWN"; // As a final fallback
+    model = "UNKNOWN"; // As a final fallback
 }
