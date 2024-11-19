@@ -295,12 +295,11 @@ void DngEncoder::setup_encoder(libcamera::StreamConfiguration const &cfg, libcam
     std::string serial = "";
     getHwInfo(serial, model);
 
-    const std::string cam_id = ""; //metadata.get()
     dng_info.make = "Raspberry Pi";
     dng_info.model = model;
     dng_info.serial = serial;
     dng_info.software = "libcamera;pinotoncam-app";
-    dng_info.ucm = cam_id;
+    dng_info.ucm = options_->GetCamID();
 
     // adjust disk_buffer
     const double MAX_RAM_FRACTION = 2.0 / 3.0;

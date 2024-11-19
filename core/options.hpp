@@ -181,6 +181,7 @@ struct Options
 
 	void SetApp(RPiCamApp *app) { app_ = app; }
 	Platform GetPlatform() const { return platform_; };
+	const std::string GetCamID() const { return cam_id_; };
 
 protected:
 	boost::program_options::options_description options_;
@@ -194,6 +195,7 @@ private:
 	std::string timeout_;
 	std::string shutter_;
 	std::string flicker_period_;
+	std::string cam_id_;
 	RPiCamApp *app_;
 	Platform platform_ = Platform::UNKNOWN;
 };

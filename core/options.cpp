@@ -394,9 +394,9 @@ bool Options::Parse(int argc, char *argv[])
 	std::vector<std::shared_ptr<libcamera::Camera>> cameras = app_->GetCameras();
 	if (camera < cameras.size())
 	{
-		const std::string cam_id = *cameras[camera]->properties().get(libcamera::properties::Model);
+		cam_id_ = *cameras[camera]->properties().get(libcamera::properties::Model);
 
-		if (cam_id.find("imx708") != std::string::npos)
+		if (cam_id_.find("imx708") != std::string::npos)
 		{
 			// HDR control. Set the sensor control before opening or listing any cameras.
 			// Start by disabling HDR unconditionally. Reset the camera manager if we have
