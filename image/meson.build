@@ -4,6 +4,7 @@ rpicam_app_src += files([
     'jpeg.cpp',
     'png.cpp',
     'yuv.cpp',
+    'fits.cpp',
 ])
 
 image_headers = files([
@@ -14,7 +15,8 @@ exif_dep = dependency('libexif', required : true)
 jpeg_dep = dependency('libjpeg', required : true)
 tiff_dep = dependency('libtiff-4', required : true)
 png_dep = dependency('libpng', required : true)
+cfitsio_dep = dependency('cfitsio', required: true)
 
-rpicam_app_dep += [exif_dep, jpeg_dep, tiff_dep, png_dep]
+rpicam_app_dep += [exif_dep, jpeg_dep, tiff_dep, png_dep, cfitsio_dep]
 
 install_headers(image_headers, subdir: meson.project_name() / 'image')

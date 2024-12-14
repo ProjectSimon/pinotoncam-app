@@ -96,6 +96,8 @@ struct StillOptions : public Options
 			encoding = "png";
 		else if (strcasecmp(encoding.c_str(), "bmp") == 0)
 			encoding = "bmp";
+		else if (strcasecmp(encoding.c_str(), "fits") == 0)
+			encoding = "fits";
 		else
 			throw std::runtime_error("invalid encoding format " + encoding);
 		return true;

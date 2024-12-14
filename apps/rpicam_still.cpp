@@ -86,6 +86,8 @@ static void save_image(RPiCamStillApp &app, CompletedRequestPtr &payload, Stream
 	const std::vector<libcamera::Span<uint8_t>> mem = r.Get();
 	if (stream == app.RawStream())
 		dng_save(mem, info, payload->metadata, filename, app.CameraModel(), options);
+	else if (options->encoding == "fits")
+		fits_save(mem, info, payload->metadata, filename, app.CameraModel(), options);
 	else if (options->encoding == "jpg")
 		jpeg_save(mem, info, payload->metadata, filename, app.CameraModel(), options);
 	else if (options->encoding == "png")
